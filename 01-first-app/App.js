@@ -22,7 +22,7 @@ export default function App() {
     // console.log("Add Goal Handler, enteredGoalText: ", enteredGoalText);
     setCourseGoals((currentCourseGoal) => [
       ...currentCourseGoal,
-      { text: enteredGoalText, key: Math.random().toString() },
+      { text: enteredGoalText, id: Math.random().toString() },
     ]);
   }
 
@@ -45,6 +45,9 @@ export default function App() {
                 <Text style={styles.goalText}>{itemData.item.text}</Text>
               </View>
             );
+          }}
+          keyExtractor={(item, index) => {
+            return item.id;
           }}
           alwaysBounceVertical={false}
         />

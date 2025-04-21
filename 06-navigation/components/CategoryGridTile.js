@@ -8,7 +8,6 @@ function CategoryGridTile({ title, color, onPress }) {
         style={({ pressed }) => [
           styles.button,
           pressed ? styles.buttonPressed : null,
-          ,
         ]}
         onPress={onPress}
       >

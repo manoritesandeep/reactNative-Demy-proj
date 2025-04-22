@@ -1,13 +1,41 @@
-import { StyleSheet, Image, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  Text,
+  View,
+  ScrollView,
+  Button,
+} from "react-native";
 import { MEALS } from "../data/dummy-data";
 import MealDetails from "../components/MealDetails";
 import Subtitle from "../components/MealDetail/Subtitle";
 import List from "../components/MealDetail/List";
+import { useLayoutEffect } from "react";
+import IconButton from "../components/IconButton";
 
-function MealsDetailScreen({ route }) {
+function MealsDetailScreen({ route, navigation }) {
   const mealId = route.params.mealId;
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+
+  function headerButtonPressHandler() {
+    console.log("Header Button Pressed.");
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <IconButton
+            icon="star"
+            color="white"
+            onPress={headerButtonPressHandler}
+          />
+        );
+        // return <Button title="Tap me!" onPress={headerButtonPressHandler} />;
+      },
+    });
+  }, [navigation, headerButtonPressHandler]);
 
   return (
     <ScrollView style={styles.rootContainer}>
@@ -22,21 +50,9 @@ function MealsDetailScreen({ route }) {
       <View style={styles.listOuterContainer}>
         <View style={styles.listContainer}>
           <Subtitle>Ingredients</Subtitle>
-          {/* <View style={styles.subtitleContainer}>
-        <Text style={styles.subtitle}>Ingredients</Text>
-        </View> */}
           <List data={selectedMeal.ingredients} />
-          {/* {selectedMeal.ingredients.map((ingredient) => (
-        <Text key={ingredient}>{ingredient}</Text>
-        ))} */}
           <Subtitle>Steps</Subtitle>
-          {/* <View style={styles.subtitleContainer}>
-        <Text style={styles.subtitle}>Steps</Text>
-        </View> */}
           <List data={selectedMeal.steps} />
-          {/* {selectedMeal.steps.map((step) => (
-        <Text key={step}>{step}</Text>
-        ))} */}
         </View>
       </View>
     </ScrollView>

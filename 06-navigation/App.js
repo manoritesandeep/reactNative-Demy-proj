@@ -1,7 +1,7 @@
 // import * as SystemUI from "expo-system-ui"; // ios background color hack // // npx expo install expo-system-ui
 
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
 import CategoriesScreen from "./screens/CategoriesScreen";
@@ -50,7 +50,9 @@ export default function App() {
           <Stack.Screen
             name="MealDetail"
             component={MealDetailScreen}
-            options={{ title: "Meals Detail Screen" }}
+            options={{
+              title: "Meals Detail Screen",
+            }}
           />
         </Stack.Navigator>
         {/* <CategoriesScreen /> */}

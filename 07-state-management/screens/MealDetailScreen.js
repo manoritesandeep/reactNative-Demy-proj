@@ -1,19 +1,25 @@
-import { useLayoutEffect } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Image,
+  Text,
+  View,
+  ScrollView,
+  Button,
+} from "react-native";
+import { MEALS } from "../data/dummy-data";
+import MealDetails from "../components/MealDetails";
+import Subtitle from "../components/MealDetail/Subtitle";
+import List from "../components/MealDetail/List";
+import { useLayoutEffect } from "react";
+import IconButton from "../components/IconButton";
 
-import IconButton from '../components/IconButton';
-import List from '../components/MealDetail/List';
-import Subtitle from '../components/MealDetail/Subtitle';
-import MealDetails from '../components/MealDetails';
-import { MEALS } from '../data/dummy-data';
-
-function MealDetailScreen({ route, navigation }) {
+function MealsDetailScreen({ route, navigation }) {
   const mealId = route.params.mealId;
 
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
   function headerButtonPressHandler() {
-    console.log('Pressed!');
+    console.log("Header Button Pressed.");
   }
 
   useLayoutEffect(() => {
@@ -26,13 +32,14 @@ function MealDetailScreen({ route, navigation }) {
             onPress={headerButtonPressHandler}
           />
         );
+        // return <Button title="Tap me!" onPress={headerButtonPressHandler} />;
       },
     });
   }, [navigation, headerButtonPressHandler]);
 
   return (
     <ScrollView style={styles.rootContainer}>
-      <Image style={styles.image} source={{ uri: selectedMeal.imageUrl }} />
+      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
       <Text style={styles.title}>{selectedMeal.title}</Text>
       <MealDetails
         duration={selectedMeal.duration}
@@ -52,30 +59,30 @@ function MealDetailScreen({ route, navigation }) {
   );
 }
 
-export default MealDetailScreen;
+export default MealsDetailScreen;
 
 const styles = StyleSheet.create({
   rootContainer: {
     marginBottom: 32,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 350,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 24,
     margin: 8,
-    textAlign: 'center',
-    color: 'white',
+    textAlign: "center",
+    color: "white",
   },
   detailText: {
-    color: 'white',
-  },
-  listOuterContainer: {
-    alignItems: 'center',
+    color: "white",
   },
   listContainer: {
-    width: '80%',
+    maxWidth: "80%",
+  },
+  listOuterContainer: {
+    alignItems: "center",
   },
 });

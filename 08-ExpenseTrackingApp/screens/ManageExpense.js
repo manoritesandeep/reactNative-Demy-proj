@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import IconButton from "../components/UI/IconButton";
 import { GlobalStyles } from "../constants/Styles";
+import Button from "../components/UI/Button";
 
 function ManageExpense({ route, navigation }) {
   const editedExpenseId = route.params?.expenseId;
@@ -14,17 +15,29 @@ function ManageExpense({ route, navigation }) {
     });
   }, [navigation, isEditing]);
 
-  function deleteExpensePressHandler() {}
+  function deleteExpenseHandler() {}
+
+  function cancelHandler() {}
+
+  function confirmHandler() {}
 
   return (
     <View style={styles.container}>
+      <View style={styles.buttonsContainer}>
+        <Button mode="flat" onPress={cancelHandler} style={styles.button}>
+          Cancel
+        </Button>
+        <Button onPress={confirmHandler} style={styles.button}>
+          {isEditing ? "Update" : "Add"}
+        </Button>
+      </View>
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton
             icon="trash"
             color={GlobalStyles.colors.error500}
             size={24}
-            onPress={deleteExpensePressHandler}
+            onPress={deleteExpenseHandler}
           />
         </View>
       )}
@@ -39,6 +52,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary800,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
   },
   deleteContainer: {
     marginTop: 16,

@@ -1,27 +1,34 @@
 import { StyleSheet, Text, View } from "react-native";
 import Input from "./Input";
 import { useState } from "react";
+import Button from "../UI/Button";
 
-function ExpenseForm() {
-  const [inputValue, setInputValue] = useState({
+function ExpenseForm({ onCancel, submitButtonLabel, onSubmit }) {
+  const [inputValues, setInputValues] = useState({
     amount: "",
     date: "",
     description: "",
   });
 
   function inputChangedHandler(inputIdentifier, enteredValue) {
-    setInputValue((curInputValues) => {
+    setInputValues((curInputValues) => {
       return {
         ...curInputValues,
         [inputIdentifier]: enteredValue,
       };
     });
   }
-  //   const [amountValue, setAmountValue] = useState("");
 
-  //   function amountChangeHandler(enteredAmount) {
-  //     setAmountValue(enteredAmount);
-  //   }
+  function submitHandler() {
+    const expenseData = {
+      amount: +inputValues.amount, // the + converts the value to a number...
+      date: new Date(inputValues.date),
+      description: inputValues.description,
+    };
+
+    onSubmit(expenseData);
+  }
+
   return (
     <View style={styles.form}>
       <Text style={styles.title}>Your Expense</Text>
@@ -32,7 +39,7 @@ function ExpenseForm() {
           textInputConfig={{
             keyboardType: "decimal-pad",
             onChangeText: inputChangedHandler.bind(this, "amount"),
-            value: inputValue.amount,
+            value: inputValues.amount,
           }}
         />
         <Input
@@ -42,7 +49,7 @@ function ExpenseForm() {
             placeholder: "YYYY-MM-DD",
             maxLength: 10,
             onChangeText: inputChangedHandler.bind(this, "date"),
-            value: inputValue.date,
+            value: inputValues.date,
           }}
         />
       </View>
@@ -53,9 +60,18 @@ function ExpenseForm() {
           //   autoCapitalize: "sentences"
           // autoCorrent: false // default is true
           onChangeText: inputChangedHandler.bind(this, "description"),
-          value: inputValue.description,
+          value: inputValues.description,
         }}
       />
+      <View style={styles.buttonsContainer}>
+        <Button mode="flat" onPress={onCancel} style={styles.button}>
+          Cancel
+        </Button>
+        <Button onPress={submitHandler} style={styles.button}>
+          {/* {isEditing ? "Update" : "Add"} */}
+          {submitButtonLabel}
+        </Button>
+      </View>
     </View>
   );
 }
@@ -79,5 +95,14 @@ const styles = StyleSheet.create({
   },
   rowInput: {
     flex: 1,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    minWidth: 120,
+    marginHorizontal: 8,
   },
 });

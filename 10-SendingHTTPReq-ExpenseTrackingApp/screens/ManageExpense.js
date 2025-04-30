@@ -8,9 +8,11 @@ import { ExpensesContext } from "../store/expenses-context";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 function ManageExpense({ route, navigation }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState();
 
   const expensesCtx = useContext(ExpensesContext);
 
@@ -29,10 +31,13 @@ function ManageExpense({ route, navigation }) {
 
   async function deleteExpenseHandler() {
     setIsSubmitting(true);
-    await deleteExpense(editedExpenseId);
-    // setIsSubmitting(false) // not really needed as we are already closing below...
-    expensesCtx.deleteExpense(editedExpenseId);
-    navigation.goBack();
+    try {
+      await deleteExpense(editedExpenseId);
+      expensesCtx.deleteExpense(editedExpenseId);
+      navigation.goBack();
+    } catch (error) {
+      setError("Could not delete expense - please try again later!");
+    }
   }
 
   function cancelHandler() {
@@ -41,18 +46,31 @@ function ManageExpense({ route, navigation }) {
 
   async function confirmHandler(expenseData) {
     setIsSubmitting(true);
-    if (isEditing) {
-      // update locally
-      expensesCtx.updateExpense(editedExpenseId, expenseData);
-      // update in backend - firebase
-      await updateExpense(editedExpenseId, expenseData);
-    } else {
-      // update in backend - firebase
-      const id = await storeExpense(expenseData);
-      // update locally
-      expensesCtx.addExpense({ ...expenseData, id: id });
+    try {
+      if (isEditing) {
+        // update locally
+        expensesCtx.updateExpense(editedExpenseId, expenseData);
+        // update in backend - firebase
+        await updateExpense(editedExpenseId, expenseData);
+      } else {
+        // update in backend - firebase
+        const id = await storeExpense(expenseData);
+        // update locally
+        expensesCtx.addExpense({ ...expenseData, id: id });
+      }
+      navigation.goBack();
+    } catch (error) {
+      setError("Could not save data - please try again later!");
+      setIsSubmitting(false);
     }
-    navigation.goBack();
+  }
+
+  // function errorHandler() {
+  //   setError(null);
+  // }
+
+  if (error && !isSubmitting) {
+    return <ErrorOverlay message={error} />; // // onConfirm={errorHandler}
   }
 
   if (isSubmitting) {

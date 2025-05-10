@@ -19,6 +19,19 @@ async function authenticate(mode, email, password) {
   return token;
 }
 
+// // Create user
+export function createUser(email, password) {
+  // export async function createUser(email, password) {
+  return authenticate("signUp", email, password);
+  // await authenticate(email, password, "signUp");
+}
+
+// //  login
+export function login(email, password) {
+  return authenticate("signInWithPassword", email, password);
+}
+
+// // Other code versions// //
 // // authenticate code with more error handling...
 // async function authenticate(mode, email, password) {
 //   const url = `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${API_KEY}`;
@@ -39,18 +52,6 @@ async function authenticate(mode, email, password) {
 //     throw error;
 //   }
 // }
-
-// // Create user
-export function createUser(email, password) {
-  // export async function createUser(email, password) {
-  return authenticate("signUp", email, password);
-  // await authenticate(email, password, "signUp");
-}
-
-// //  login
-export function login(email, password) {
-  return authenticate("signInWithPassword", email, password);
-}
 
 // //  Old method...
 // export async function createUser(email, password) {

@@ -1,5 +1,7 @@
+import PlaceForm from "../components/Places/PlaceForm";
+
 function AddPlace() {
-  return null;
+  return <PlaceForm />;
 }
 
 export default AddPlace;

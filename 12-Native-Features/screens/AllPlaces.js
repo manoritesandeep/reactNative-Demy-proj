@@ -1,5 +1,7 @@
+import PlacesList from "../components/Places/PlacesList";
+
 function AllPlaces() {
-  return null;
+  return <PlacesList />;
 }
 
 export default AllPlaces;

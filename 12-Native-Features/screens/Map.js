@@ -1,5 +1,5 @@
 function Map() {
-  return nulls;
+  return null;
 }
 
 export default Map;

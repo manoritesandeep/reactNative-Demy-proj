@@ -29,7 +29,7 @@ function ImagePicker() {
   }
 
   async function takeImageHandler() {
-    const [hasPermission] = await verifyPermissions();
+    const hasPermission = await verifyPermissions();
 
     if (!hasPermission) {
       return;

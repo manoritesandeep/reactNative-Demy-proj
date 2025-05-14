@@ -5,8 +5,9 @@ import { Colors } from "../../constants/colors";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
 import Button from "../UI/Button";
+import { Place } from "../../models/place";
 
-function PlaceForm() {
+function PlaceForm({ onCreatePlace }) {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [selectedImage, setSelectedImage] = useState();
   const [pickedLocation, setPickedLocation] = useState();
@@ -24,9 +25,11 @@ function PlaceForm() {
   }, []);
 
   function savePlaceHandler() {
-    console.log("Title: ", enteredTitle);
-    console.log("Selected Image: ", selectedImage);
-    console.log("Picked Location: ", pickedLocation);
+    // console.log("Title: ", enteredTitle);
+    // console.log("Selected Image: ", selectedImage);
+    // console.log("Picked Location: ", pickedLocation);
+    const placeData = new Place(enteredTitle, selectedImage, pickedLocation);
+    onCreatePlace(placeData);
   }
 
   return (

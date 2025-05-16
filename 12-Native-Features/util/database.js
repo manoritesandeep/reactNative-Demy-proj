@@ -56,6 +56,22 @@ export async function fetchPlaces() {
   return places;
 }
 
+export async function fetchPlaceDetails(id) {
+  const dbPlace = await database.getFirstAsync(
+    "SELECT * FROM places WHERE id = ?",
+    [id]
+  );
+
+  const place = new Place(
+    dbPlace.title,
+    dbPlace.imageUri,
+    { lat: dbPlace.lat, lng: dbPlace.lng, address: dbPlace.address },
+    dbPlace.id
+  );
+
+  return place;
+}
+
 // Old code - npm install expo-sqlite@10.1.0
 // import * as SQLite from "expo-sqlite";
 

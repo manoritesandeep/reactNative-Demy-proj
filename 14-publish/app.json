@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "RNCourse",
+    "name": "The Recipe Network",
+    "description": "A mobile app for sharing and discovering recipes.",
     "slug": "RNCourse",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,16 +19,24 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.noobdevtest.myrecipenetwork"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e23f0535-fd7d-4e08-b38a-012d31ee6659"
+      }
     }
   }
 }

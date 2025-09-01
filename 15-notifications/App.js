@@ -43,6 +43,7 @@ export default function App() {
       //   }
       // );
       console.log("Push Token Data: ", pushTokenData);
+      // // V.Impt: Push token for a user is stored in the database. ExponentPushToken[]
 
       if (Platform.OS === "android") {
         Notifications.setNotificationChannelAsync("default", {
@@ -98,12 +99,32 @@ export default function App() {
     console.log("Scheduled button pressed!!!");
   }
 
+  function sendPushNotificationHandler() {
+    fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: "ExponentPushToken[]", // // Never Hardcode this token... Needs to be fetched dynamically from a database
+        title: "Test - sent from a device!",
+        body: "This is a test!",
+      }),
+    });
+  }
+
   return (
     <View style={styles.container}>
-      <Button
-        title="Schedule Notification"
-        onPress={scheduleNotificationHandler}
-      />
+      <View>
+        <Button
+          title="Schedule Notification"
+          onPress={scheduleNotificationHandler}
+        />
+        <Button
+          title="Send Push Notification"
+          onPress={sendPushNotificationHandler}
+        />
+      </View>
       <StatusBar style="auto" />
     </View>
   );

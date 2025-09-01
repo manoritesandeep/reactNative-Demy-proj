@@ -2,19 +2,50 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, View } from "react-native";
 
 import * as Notifications from "expo-notifications";
+import { useEffect } from "react";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return {
       shouldPlaySound: false,
       shouldSetBadge: false,
-      shouldShowBanner: true,
-      // shouldShowAlert: true // //@deprecated — instead, specify shouldShowBanner and / or shouldShowList
+      // shouldShowBanner: true,
+      // shouldShowList: true,
+      shouldShowAlert: true, // //@deprecated — instead, specify shouldShowBanner and / or shouldShowList
     };
   },
 });
 
 export default function App() {
+  useEffect(() => {
+    const subsciption1 = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("Notification Received...");
+        console.log(notification);
+        // console.log("Data Object: ", notification.request.content.data);
+        // console.log(
+        //   "Data Object userName: ",
+        //   notification.request.content.data.userName
+        // );
+        const userName = notification.request.content.data.userName;
+        console.log("User name: ", userName);
+      }
+    );
+    const subsciption2 = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log("Notification Response Received...");
+        console.log(response);
+        const userName = response.notification.request.content.data.userName;
+        console.log("Response User name: ", userName);
+      }
+    );
+
+    return () => {
+      subsciption1.remove();
+      subsciption2.remove();
+    };
+  }, []);
+
   function scheduleNotificationHandler() {
     Notifications.scheduleNotificationAsync({
       content: {
@@ -26,6 +57,7 @@ export default function App() {
         seconds: 5,
       },
     });
+    console.log("Scheduled button pressed!!!");
   }
 
   return (
